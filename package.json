@@ -1,0 +1,34 @@
+{
+  "name": "3rd-shop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.1",
+    "@stripe/react-stripe-js": "^1.14.2",
+    "@stripe/stripe-js": "^1.43.0",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.8",
+    "apollo-upload-client": "^17.0.0",
+    "downshift": "^7.0.1",
+    "eslint": "8.27.0",
+    "eslint-config-next": "13.0.3",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
+    "graphql-upload": "^16.0.2",
+    "lodash.debounce": "^4.0.8",
+    "next": "13.0.3",
+    "nprogress": "^0.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-transition-group": "^4.4.5",
+    "typescript": "4.8.4",
+    "waait": "^1.0.5"
+  }
+}
