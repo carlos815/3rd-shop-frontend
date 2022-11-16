@@ -38,7 +38,7 @@ module.exports = {
         },
       ],
       lg: [
-        "1.3125rem",
+        "24px",
         {
           letterSpacing: "0.15px",
           fontWeight: "500",
