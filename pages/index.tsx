@@ -4,7 +4,8 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Image from "next/image";
 import ProductCard from '../components/ProductCard';
-import MaxWidth from '../components/MaxWidth';
+import MaxWidth from '../components/layout/MaxWidth';
+import Padding from '../components/layout/Padding';
 import Banner from '../components/Banner';
 
 export const ALL_PRODUCTS_QUERY = gql`
@@ -31,7 +32,6 @@ export default function Home() {
     }
   })
 
-  console.log(data?.allProducts[0])
 
   return (
     < >
@@ -42,12 +42,11 @@ export default function Home() {
       </Head>
 
       <MaxWidth>
-        <Image src="/hero.png" height={461} width={1152} alt={"Banner Image"} className="mb-6 min-h-[364px] object-cover w-screen " ></Image>
-
-        <div className=' p-6 xl:p-0 mb-6'>
+        <Image src="/hero.png" height={461} width={1152} alt="Hero Image" className="mb-6 min-h-[364px] object-cover w-screen " ></Image>
+        <Padding>
           <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Explore Products</h1>
           <div className='grid grid-cols-2 lg:grid-cols-4 gap-8'>  {data && data.allProducts.map(product => <ProductCard product={product} key={product.id} />)}</div>
-        </div>
+        </Padding>
       </MaxWidth>
       <Banner></Banner>
     </>
