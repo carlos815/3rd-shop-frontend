@@ -1,8 +1,31 @@
+import { useQuery } from '@apollo/client';
+import gql from 'graphql-tag';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+export const ALL_PRODUCTS_QUERY = gql`
+  query ALL_PRODUCTS_QUERY {
+    allProducts {
+      id
+      name
+      price
+      description
+      photo {
+        id
+        image {
+          publicUrlTransformed
+        }
+      }
+    }
+  }
+`;
+
 export default function Home() {
+  const { data, loading, error } = useQuery(ALL_PRODUCTS_QUERY)
+
+  console.log(data)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,7 +34,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className="">
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
