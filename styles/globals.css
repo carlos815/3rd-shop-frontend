@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,700;1,400&family=Noto+Sans:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Noto+Sans:wght@300;400;500;700&display=swap');
 
 html,
 body {
@@ -30,4 +30,40 @@ a {
     color: white;
     background: black;
   }
+}
+
+.swiper-pagination-bullet.bl {
+  @apply inline-block rounded-sm w-2 h-2 bg-pink drop-shadow-xs opacity-100
+}
+
+
+.swiper-pagination-bullet-active.bl {
+  @apply bg-turquoise opacity-100 rounded-full transition-all duration-500
+}
+
+.swiper-pagination-clickable .swiper-pagination-bullet {
+  @apply cursor-pointer
+}
+
+.swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal {
+  @apply bottom-5 left-auto w-auto
+}
+
+
+
+.swiper .swiper-button-next {
+  @apply text-pink
+}
+
+
+.swiper .swiper-button-prev {
+  @apply text-turquoise
+}
+
+.swiper .swiper-button-disabled {
+  @apply opacity-0
+}
+
+.react-transform-wrapper {
+  @apply rounded-2xl relative
 }
