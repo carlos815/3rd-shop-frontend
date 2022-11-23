@@ -7,16 +7,21 @@ import ProductCard from '../components/ProductCard';
 import MaxWidth from '../components/layout/MaxWidth';
 import Padding from '../components/layout/Padding';
 import Banner from '../components/Banner';
+import ProductsGrid from '../components/ProductsGrid';
+
+
+// products(first: $first, skip: $skip, where: { id_not: $id_not }) {
 
 export const ALL_PRODUCTS_QUERY = gql`
-  query ALL_PRODUCTS_QUERY($skip: Int = 0, $first: Int) {
-    allProducts(first: $first, skip: $skip) {
+  query ALL_PRODUCTS_QUERY($id_not: ID, $take: Int, $skip: Int = 0) {
+    products(where: { id: { not: {equals: $id_not} } }, take: $take, skip: $skip) {
       id
       name
       price
       description
       photo {
         id
+        altText
         image {
           publicUrlTransformed
         }
@@ -25,14 +30,19 @@ export const ALL_PRODUCTS_QUERY = gql`
   }
 `;
 
+
+// [
+//   {
+//     "__typename": "Product",
+//     "id": "clar2bmab0257nkvq9o97caws",
+//     "name": "Test",
+//     "price": 342,
+//     "description": "test",
+//     "photo": []
+//   }
+// ]
 export default function Home() {
-  const { data, loading, error } = useQuery(ALL_PRODUCTS_QUERY, {
-    variables: {
-      first: 4
-    }
-  })
-
-
+  const { data, loading, error } = useQuery(ALL_PRODUCTS_QUERY)
   return (
     < >
       <Head>
@@ -42,13 +52,15 @@ export default function Home() {
       </Head>
 
       <MaxWidth>
-        <Image src="/hero.png" height={461} width={1152} alt="Hero Image" className="mb-6 min-h-[364px] object-cover w-screen " ></Image>
+        <Image src="/hero.png" height={4610} width={11520} alt="Hero Image" className="mb-6 min-h-[364px] object-cover w-screen " ></Image>
         <Padding>
+          {/* {loading && <p>Loading...</p>} */}
           <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Explore Products</h1>
-          <div className='grid grid-cols-2 lg:grid-cols-4 gap-8'>  {data && data.allProducts.map(product => <ProductCard product={product} key={product.id} />)}</div>
+          {data?.products && <ProductsGrid products={data?.products}></ProductsGrid>
+          }
         </Padding>
       </MaxWidth>
-      <Banner></Banner>
+      <Banner />
     </>
   )
 
