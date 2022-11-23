@@ -6,16 +6,14 @@ import formatMoney from '../lib/formatMoney'
 const ProductCard = ({ product }) => {
   const { id, name, price } = product;
 
-  const { altText, publicUrlTransformed } = product.photo.image;
-
-
+  const { altText, image } = product?.photo[0];
   return (
     <Link href={`/product/${id}`} className="group ">
       <div className="w-full bg-gray-200 rounded-3xl overflow-hidden drop-shadow-lg ">
         <div className="relative  h-64 group-hover:scale-105 group-hover:rotate-3 duration-500 ">
           <Image
-            src={publicUrlTransformed}
-            alt={name}
+            src={image.publicUrlTransformed}
+            alt={altText}
             layout="fill"
             objectFit="cover"
           />
