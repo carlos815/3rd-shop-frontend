@@ -11,7 +11,7 @@ module.exports = {
       pink: "#F4B9B8",
       yellow: "#FFF4BD",
       turquoise: "#73E2E0",
-      purple: "#8D79C9",
+      purple: "#604D99",
       "purple-dark": "#292140",
     },
 
@@ -35,6 +35,12 @@ module.exports = {
         {
           letterSpacing: "0.5px",
           fontWeight: "400",
+        },
+      ],
+      h6: [
+        "21px", {
+          letterSpacing: "0.15px",
+          fontWeight: "700",
         },
       ],
       lg: [
@@ -81,8 +87,8 @@ module.exports = {
       ],
     },
     fontFamily: {
-      headline: "Lora serif",
-      body: "Noto Sans -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+      headline: "Lora, serif",
+      body: "Noto Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
     },
     dropShadow: {
       lg: "8px 8px 0px #292140",
