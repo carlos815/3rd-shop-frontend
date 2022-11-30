@@ -20,9 +20,12 @@ import { useRouter } from 'next/router';
 import formatMoney from '../../lib/formatMoney';
 import Padding from '../../components/layout/Padding';
 import ProductsGrid from '../../components/ProductsGrid';
-import Button from '../../components/Button';
+import Button from '../../components/Buttons';
 
 import ImageSwiper from "../../components/ImageSwiper"
+import { CURRENT_USER_QUERY, useUser } from '../../components/User';
+import { userAgent } from 'next/server';
+import Link from 'next/link';
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -63,13 +66,20 @@ const ProductPage: NextPage = ({ }) => {
   const product = data?.product
   const [addToCart, { data: addToCartData, error: addToCartError, loading: addToCartLoading }] = useMutation(ADD_TO_CART_MUTATION, {
     variables: { id: query.id },
-    // TODO: add cart query refetch
-    // refetchQueries: [
-    //   ADD_TO_CART_MUTATION
-    // ]
+    refetchQueries: [
+      CURRENT_USER_QUERY
+    ],
+
+    onCompleted: () => {
+      console.log("item added to cart")
+    }
   },
 
   )
+  const user = useUser();
+
+  const match = user?.cart.find((item) => item.product.id == query.id)
+
   return (
     <>
       <Head>
@@ -80,10 +90,10 @@ const ProductPage: NextPage = ({ }) => {
 
       {loading ? <h1>Loading...</h1> :
         <MaxWidth>
-          <Padding className="w-auto py-4">
+          <Padding className="w-auto py-8 ">
             <div className="flex flex-col md:flex-row md:gap-16 mb-6 " >
               <div className="relative flex items-center justify-center overflow-hidden mb-4 w-full">
-                <div className="relative flex items-center justify-center rounded-2xl overflow-hidden">
+                <div className="relative flex items-center justify-center rounded-lg overflow-hidden">
                   {<ImageSwiper images={product?.photo} />}
                 </div >
 
@@ -97,9 +107,10 @@ const ProductPage: NextPage = ({ }) => {
 
                 <div className="flex flex-col gap-y-4  text-yellow font-body mb-4" >{product?.description}</div>
 
-                <h2 className="text-2xl  text-turquoise mb-4 font-headline">{formatMoney(product.price)}</h2>
-
-                <Button onClick={addToCart} disabled={addToCartLoading}>Buy</Button></div>
+                <h2 className="text-2xl  text-turquoise mb-4 font-headline">{formatMoney(product?.price)}</h2>
+                {match && <p className='text-turquoise font-body'>                Item added to <Link href="/cart" className='underline'>cart!</Link>
+                </p>}
+                {!match && <Button onClick={addToCart} disabled={addToCartLoading}>Buy</Button>}</div>
 
 
             </div>
@@ -117,6 +128,8 @@ const ProductPage: NextPage = ({ }) => {
 }
 
 export default ProductPage
+
+export { ADD_TO_CART_MUTATION }
 
 // export const getStaticProps: GetStaticProps = async (context) => {
 //     const product = await getProduct(context.params?.id)
