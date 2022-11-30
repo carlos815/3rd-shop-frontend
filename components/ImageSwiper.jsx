@@ -37,10 +37,10 @@ const ImageSwiper = ({ images }) => {
         onSlideChange={(event) => { setActiveIndex(event.activeIndex) }}
         className="flex items-center justify-center "
     >
-        {images.map((image) =>
+        {images?.map((image) =>
             <SwiperSlide key={image.id}>
                 <div className="w-full  flex items-center justify-center overflow-visible  ">
-                    <div className=" pr-2 pb-2 drop-shadow-lg ">
+                    <div className=" pr-2 pb-2 drop-shadow-lg w-full ">
                         <ZoomImageContainer image={image} activeIndex={activeIndex} />
                     </div>
                 </div>
