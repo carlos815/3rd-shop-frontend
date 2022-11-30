@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import formatMoney from '../lib/formatMoney'
+import { Product } from "../types";
 // import { formatter } from "../utils/helpers";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product }: { product: Product }) => {
   const { id, name, price } = product;
 
   const { altText, image } = product?.photo[0];

@@ -49,7 +49,7 @@ export default function AllProductsPage() {
 
   console.log(query)
   const itemsPerPage = 4
-  const page = parseInt(query.p) || 1
+  const page = query.p ? parseInt(query.p.toString()) : 1
   const { data, loading, error } = useQuery(ALL_PRODUCTS_QUERY, {
     variables: {
       take: itemsPerPage,

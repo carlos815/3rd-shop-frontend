@@ -1,3 +1,4 @@
+// @ts-nocheck
 import MaxWidth from '../components/layout/MaxWidth';
 import Padding from '../components/layout/Padding';
 import useForm from '../lib/useForm';
@@ -9,7 +10,7 @@ import { useMutation, } from '@apollo/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { CURRENT_USER_QUERY, useUser } from '../components/User';
-import { useState } from 'react'
+import { useState, FormEvent } from 'react'
 
 
 
@@ -46,7 +47,7 @@ export default function SignInPage() {
         ],
     })
 
-    async function handleSubmit(e: ChangeEvent) {
+    async function handleSubmit(e: FormEvent) {
         e.preventDefault(); // stop the form from submitting
         const res = await signin().catch(console.error);
         if (res?.data.authenticateUserWithPassword.__typename == "UserAuthenticationWithPasswordFailure") {

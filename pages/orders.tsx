@@ -11,6 +11,7 @@ import ProductsGrid from '../components/ProductsGrid';
 import Link from 'next/link';
 import formatMoney from '../lib/formatMoney';
 import formatDate from '../lib/formatDate';
+import { Order, OrderItem, Orders } from '../types';
 
 
 // products(first: $first, skip: $skip, where: { id_not: $id_not }) {
@@ -54,6 +55,8 @@ export const USER_ORDERS_QUERY = gql`
 //     "photo": []
 //   }
 // ]
+
+
 export default function OrdersPage() {
   const { data, loading, error } = useQuery(USER_ORDERS_QUERY)
   return (
@@ -70,7 +73,7 @@ export default function OrdersPage() {
           {/* {loading && <p>Loading...</p>} */}
           <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Orders</h1>
           <div className='flex flex-col gap-8 my-4'>
-            {data?.orders.map((order, index) => <div key={order.id} className={"flex flex-col  rounded-lg overflow-hidden"}>
+            {data?.orders.map((order: Order, index: number) => <div key={order.id} className={"flex flex-col  rounded-lg overflow-hidden"}>
               {/* //Header */}
               <div className='flex gap-7 text-sm text-yellow font-body bg-purple-dark py-2 px-4 '>
                 <div>
@@ -99,7 +102,7 @@ export default function OrdersPage() {
 
 }
 
-const OrderItem = ({ orderItem }) => <div key={orderItem.id} className={"flex gap-5 "}>
+const OrderItem = ({ orderItem }: { orderItem: OrderItem }) => <div key={orderItem.id} className={"flex gap-5 "}>
   <Image className={"w-32 h-32 object-cover rounded-lg g aspect-[296/256] "} src={orderItem.photo.image.publicUrlTransformed} width={200} height={200} alt={orderItem.photo.altText} />
   <div className='text-purple-dark  w-full flex flex-col justify-between h-auto'>
     <h3 className='font-headline font-bold text-h6 '>

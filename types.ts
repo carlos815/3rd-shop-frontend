@@ -19,3 +19,28 @@ export type Photo = {
         publicUrlTransformed: string
     }
 }
+
+export type Orders = {
+    Orders: [Order]
+}
+
+export type Order = {
+    id: string,
+    charge: string,
+    total: number,
+    createdAt: string,
+    user: {
+        id: string,
+    }
+    items: [OrderItem]
+}
+
+export type OrderItem = {
+    id: string,
+    name: string,
+    description: string,
+    price: number,
+    quantity: number,
+    productId: string,
+    photo: Photo
+}

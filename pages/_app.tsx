@@ -6,12 +6,6 @@ import Page from "../components/Page"
 import { NavStateProvider } from "../lib/navStateProvider"
 import NProgress from 'nprogress';
 import '../styles/nprogress.css';
-
-// import withData from '../lib/withData';
-
-
-
-
 import "../styles/globals.css";
 import { Router } from "next/router";
 
@@ -19,7 +13,7 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: { Component: any, pageProps: any }) {
   return (
     <div className="min-h-screen bg-purple flex flex-col justify-between  ">
       <ApolloProvider client={client}>

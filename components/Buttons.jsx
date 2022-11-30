@@ -1,4 +1,4 @@
-export default function Button({ children, onClick, type = "button", disabled = false }) {
+export default function Button({ children, onClick = () => { }, type = "button", disabled = false }) {
     return <button disabled={disabled} className="relative  transition duration-200 translate-x-0 translate-y-0 hover:-translate-x-1 hover:-translate-y-1 rounded-lg uppercase  text-sm text-purple p-4 w-full font-bold mt-4 bg-pink " style={{
         boxShadow: "8px 8px 0px #292140, inset 4px 4px 0px #FFF4BD"
     }} type={type} onClick={onClick}>

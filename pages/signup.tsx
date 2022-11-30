@@ -1,7 +1,7 @@
 import MaxWidth from '../components/layout/MaxWidth';
 import Padding from '../components/layout/Padding';
 import useForm from '../lib/useForm';
-import { ChangeEventHandler, ChangeEvent } from 'react'
+import { ChangeEventHandler, ChangeEvent, FormEvent } from 'react'
 import LabeledInput from '../components/LabeledInput';
 import Button from '../components/Buttons';
 import gql from 'graphql-tag';
@@ -25,7 +25,7 @@ const SIGNUP_MUTATION = gql`
 
 
 export default function SignUpPage() {
-    const { inputs, handleChange, resetForm } = useForm({
+    const { inputs, handleChange, resetForm }: { inputs: any, handleChange: ChangeEventHandler, resetForm: Function } = useForm({
         name: '',
         email: '',
         password: '',
@@ -35,7 +35,7 @@ export default function SignUpPage() {
         variables: inputs
     })
 
-    async function handleSubmit(e: ChangeEvent) {
+    async function handleSubmit(e: FormEvent) {
         e.preventDefault(); // stop the form from submitting
         const res = await signup().catch(console.error);
         resetForm();
