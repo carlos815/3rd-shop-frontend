@@ -2,8 +2,6 @@
 // import ProductCard from "../components/ProductCard"
 import gql from 'graphql-tag';
 
-
-
 import { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import Head from 'next/head';
 import Image from "next/image"
@@ -26,6 +24,7 @@ import ImageSwiper from "../../components/ImageSwiper"
 import { CURRENT_USER_QUERY, useUser } from '../../components/User';
 import { userAgent } from 'next/server';
 import Link from 'next/link';
+import { CartItem } from '../../types';
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -78,7 +77,7 @@ const ProductPage: NextPage = ({ }) => {
   )
   const user = useUser();
 
-  const match = user?.cart.find((item) => item.product.id == query.id)
+  const match = user?.cart.find((item: CartItem) => item.product.id == query.id)
 
   return (
     <>

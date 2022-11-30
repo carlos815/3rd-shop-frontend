@@ -16,9 +16,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Checkout from '../components/Checkout'
 import Link from 'next/link';
-import ReactModal from 'react-modal';
 import BaseModal from '../components/modals/BaseModal';
 import { useState, useRef } from 'react'
+import { CartItem } from '../types';
+import { parse } from 'path';
 
 // products(first: $first, skip: $skip, where: { id_not: $id_not }) {
 
@@ -28,14 +29,14 @@ export default function CartPage() {
 
   const user = useUser()
 
-  const totalPrice = user?.cart.reduce((accumulator, cartItem) => {
+  const totalPrice = user?.cart.reduce((accumulator: number, cartItem: CartItem) => {
     const price = cartItem.product.price;
     const quantity = cartItem.quantity;
     return price * quantity + accumulator
   }, 0)
 
 
-  const checkoutDialog = useRef()
+  const checkoutDialog = useRef<null | HTMLDialogElement>()
   const cart = user?.cart;
 
   const EmptyCart = () => <div>
@@ -44,12 +45,12 @@ export default function CartPage() {
 
   const FilledCart = () => <>
     <div className='flex flex-col gap-8 mb-6'>
-      {user?.cart.map((cartItem) =>
+      {user?.cart.map((cartItem: CartItem) =>
         <CartItem key={cartItem.id} cartItem={cartItem} />
       )}
     </div>
     <h2 className='font-headline  text-h6  text-yellow'>Total: {formatMoney(totalPrice)}</h2>
-    <Button onClick={() => { checkoutDialog.current.showModal() }}>Buy</Button>
+    <Button onClick={() => { checkoutDialog.current?.showModal() }}>Buy</Button>
   </>
 
   return (
@@ -83,7 +84,7 @@ export default function CartPage() {
   )
 }
 
-const CartItem = ({ cartItem }) => <div key={cartItem.id} className={"flex gap-5 "}>
+const CartItem = ({ cartItem }: { cartItem: CartItem }) => <div key={cartItem.id.toString()} className={"flex gap-5 "}>
   <Image className={"w-32 h-32 object-cover rounded-lg drop-shadow-lg aspect-[296/256] "} src={cartItem.product.photo[0].image.publicUrlTransformed} width={200} height={200} alt={cartItem.product.photo[0].altText} />
   <div className='text-yellow  w-full flex flex-col justify-between h-auto'>
     <h3 className='font-headline font-bold text-h6 '>

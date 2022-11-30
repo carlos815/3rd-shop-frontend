@@ -9,6 +9,7 @@ interface ModalProps {
     important?: boolean,
     className?: string,
     open?: boolean,
+    dialogRef: any
 
 }
 const BaseModal = ({ title, content, children, important, className, open, dialogRef }: ModalProps) => {
