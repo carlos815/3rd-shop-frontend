@@ -5,6 +5,8 @@ import Footer from "../components/Footer"
 import Page from "../components/Page"
 import { NavStateProvider } from "../lib/navStateProvider"
 import NProgress from 'nprogress';
+import '../styles/nprogress.css';
+
 // import withData from '../lib/withData';
 
 
@@ -19,7 +21,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div className="min-h-screen bg-purple flex flex-col justify-between">
+    <div className="min-h-screen bg-purple flex flex-col justify-between  ">
       <ApolloProvider client={client}>
         <NavStateProvider>
           <Header />
