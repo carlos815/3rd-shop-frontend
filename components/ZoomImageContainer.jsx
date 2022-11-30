@@ -1,8 +1,12 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { MinusButton, PlusButton } from "./Buttons";
 
 const ZoomImageContainer = ({ image, activeIndex }) => {
+
+    //TODO: zoom functionality disabled for now. Buggy AF. Returning a simpler Image component
+    return <Image className=" self-center w-full  rounded-lg  aspect-[395/493]  h-auto object-cover" width={1000} height={711} key={image.image.publicUrlTransformed} src={image.image.publicUrlTransformed} alt={image.altText} ></Image >
 
     const [scale, setScale] = useState(1)
 
@@ -10,7 +14,6 @@ const ZoomImageContainer = ({ image, activeIndex }) => {
     useEffect(() => {
         imageReset()
     }, [activeIndex])
-
 
 
     return <TransformWrapper
@@ -22,22 +25,19 @@ const ZoomImageContainer = ({ image, activeIndex }) => {
             return (<>
                 <div className="absolute bottom-5 right-5 z-50">
                     {/* Zoom out button */}
-                    {rest.state.scale !== 1 && <button onClick={() => resetTransform()} className=" h-11 w-11 text-purple bg-turquoise  rounded-full  p-3 scale-75" ><svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect y="13" width="5" height="21" transform="rotate(-90 0 13)" fill="currentColor" />
-                    </svg></button>}
+                    {rest.state.scale !== 1 && <MinusButton onClick={resetTransform} />}
                     {/* Zoom in button */}
-                    <button className="  h-11 w-11 text-purple bg-turquoise rounded-full  p-3 scale-75" onClick={() => zoomIn()}><svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="8" width="5" height="21" fill="currentColor" />
-                        <rect y="13" width="5" height="21" transform="rotate(-90 0 13)" fill="currentColor" />
-                    </svg></button>
+                    <PlusButton onClick={zoomIn} />
                 </div>
-                <TransformComponent>
-                    <Image className=" self-center w-auto  rounded-md  aspect-[395/493] object-cover" width={5750} height={711} key={image.image.publicUrlTransformed} src={image.image.publicUrlTransformed} ></Image>
+                <TransformComponent contentClass="w-full" wrapperClass="w-full" >
+                    <Image className=" self-center w-full  rounded-md  aspect-[395/493]  h-auto object-cover" width={1000} height={711} key={image.image.publicUrlTransformed} src={image.image.publicUrlTransformed} alt={image.altText} ></Image>
                 </TransformComponent>
             </>
             )
         }}
     </TransformWrapper>
+
+
 }
 
 export default ZoomImageContainer
