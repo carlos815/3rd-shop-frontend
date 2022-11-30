@@ -92,7 +92,7 @@ export default function Header() {
             <ul hidden={!cartOpen} className="absolute 0 right-0 w-2/5 h-full bg-pink p-4 py-8 text-h6 font-headline text-center text-purple decoration-purple underline flex flex-col gap-4 h-" >
                 <h1 className="text-4xl ">Cart</h1>
                 {user?.cart.map((cartItem) =>
-                    <div>
+                    <div key={cartItem.id}>
                         <h1>{cartItem.product.name}</h1>
                         <h1>{cartItem.quantity}</h1>
                     </div>

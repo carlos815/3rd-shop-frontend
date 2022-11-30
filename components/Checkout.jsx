@@ -82,7 +82,7 @@ const CheckoutForm = ({ totalPrice }) => {
     return <form onSubmit={handleSubmit} disabled={loading} method="dialog"
         className="stripe-form  flex flex-col gap-3 " >
         <p>This checkout is handled by <Link className='underline' href="https://stripe.com/">Stripe
-        </Link>, so it's safe AF</p>
+        </Link>, so it&apos;s safe AF</p>
 
         <CardElement className=' bg-yellow font-body p-4 rounded-lg font-bold   drop-shadow-lg' />
         <Button type='submit'>Pay ({formatMoney(totalPrice)})</Button>

@@ -22,7 +22,7 @@ query SEARCH_PRODUCTS_QUERY ($searchTerm: String!){
     }
   }
 }`
-export default function search() {
+export default function Search() {
 
     const [inputItems, setInputItems] = useState([])
     const [inputValue, setInputValue] = useState()
