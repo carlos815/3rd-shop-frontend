@@ -65,5 +65,11 @@ a {
 }
 
 .react-transform-wrapper {
-  @apply rounded-2xl relative
+  @apply rounded-2xl relative w-full
 }
+
+
+
+/* .stripe-form {}
+
+.stripe-form:hover {} */
