@@ -3,7 +3,7 @@ import Padding from '../components/layout/Padding';
 import useForm from '../lib/useForm';
 import { ChangeEventHandler, ChangeEvent } from 'react'
 import LabeledInput from '../components/LabeledInput';
-import Button from '../components/Button';
+import Button from '../components/Buttons';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import Link from 'next/link';
@@ -41,9 +41,9 @@ export default function SignUpPage() {
         resetForm();
         // Send the email and password to the graphqlAPI
     }
-    return <div className='flex justify-center '>
+    return <div className='mt-8 flex justify-center '>
         <MaxWidth>
-            <Padding>
+            <Padding className="max-w-lg ">
                 <h1 className='font-headline text-3xl text-shadow-3d text-turquoise mb-4'>Sign Up</h1>
                 {error && <div className='mb-4  p-4 border-yellow rounded-xl border-8 border-dashed'>
                     <h2 className='font-headline text-lg text-turquoise '>Error:</h2>
