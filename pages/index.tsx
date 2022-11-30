@@ -13,8 +13,8 @@ import ProductsGrid from '../components/ProductsGrid';
 // products(first: $first, skip: $skip, where: { id_not: $id_not }) {
 
 export const ALL_PRODUCTS_QUERY = gql`
-  query ALL_PRODUCTS_QUERY($id_not: ID, $take: Int, $skip: Int = 0) {
-    products(where: { id: { not: {equals: $id_not} } }, take: $take, skip: $skip) {
+  query ALL_PRODUCTS_QUERY($id_not: ID, $take: Int, $skip: Int = 0, $orderBy: OrderDirection = desc) {
+    products(where: { id: { not: {equals: $id_not} } }, take: $take, skip: $skip, orderBy: {description: $orderBy}) {
       id
       name
       price
@@ -42,7 +42,7 @@ export const ALL_PRODUCTS_QUERY = gql`
 //   }
 // ]
 export default function Home() {
-  const { data, loading, error } = useQuery(ALL_PRODUCTS_QUERY)
+  const { data, loading, error } = useQuery(ALL_PRODUCTS_QUERY, { variables: { take: 4, orderBy: "asc" } })
   return (
     < >
       <Head>
@@ -52,8 +52,8 @@ export default function Home() {
       </Head>
 
       <MaxWidth>
-        <Image src="/hero.png" height={4610} width={11520} alt="Hero Image" className="mb-6 min-h-[364px] object-cover w-screen " ></Image>
-        <Padding>
+        <Image src="/hero.png" height={4610} width={11520} alt="Hero Image" className=" min-h-[364px] object-cover w-screen " ></Image>
+        <Padding className="my-8">
           {/* {loading && <p>Loading...</p>} */}
           <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Explore Products</h1>
           {data?.products && <ProductsGrid products={data?.products}></ProductsGrid>
