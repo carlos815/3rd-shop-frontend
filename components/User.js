@@ -6,27 +6,29 @@ const CURRENT_USER_QUERY = gql`
       ... on User {
         id
         email
-        name    
+        name  
+        cart {
+          id
+          quantity
+          product {
+            id
+            price
+            name
+            description
+            photo {
+              altText
+              image {
+                publicUrlTransformed
+              }
+            }
+          }
+      }  
       }
     }
   }
 `;
 
-//     cart {
-//   id
-//   quantity
-//           product {
-//     id
-//     price
-//     name
-//     description
-//             photo {
-//               image {
-//         publicUrlTransformed
-//       }
-//     }
-//   }
-// }
+
 
 export function useUser() {
   // useQuery(CURRENT_USER_QUERY)
