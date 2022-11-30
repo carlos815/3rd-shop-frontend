@@ -93,6 +93,7 @@ module.exports = {
     dropShadow: {
       lg: "8px 8px 0px #292140",
       xs: "2px 2px 0px #292140",
+      inset: "inset 4px 4px 0px #FFF4BD"
     },
     extend: {
       textShadow: {
