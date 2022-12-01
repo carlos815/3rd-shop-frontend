@@ -79,7 +79,7 @@ module.exports = {
         },
       ],
       "5xl": [
-        "6.4375",
+        "6.4375rem",
         {
           letterSpacing: "-1.5px",
           fontWeight: "500",
@@ -99,6 +99,15 @@ module.exports = {
       textShadow: {
         "3d": "-3px 0px 0px rgba(198, 115, 226, 0.3), 3px 0px 0px rgba(164, 226, 115, 0.3)",
       },
+      animation: {
+        'fadein': 'fadein 0.5s linear 1',
+      },
+      keyframes: {
+        fadein: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        }
+      }
     },
   },
   plugins: [
