@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { CURRENT_USER_QUERY, useUser } from '../components/User';
 import { useState, FormEvent } from 'react'
+import nProgress from 'nprogress';
 
 
 
@@ -33,9 +34,14 @@ const SIGNIN_MUTATION = gql`
 
 export default function SignInPage() {
 
+
+    const router = useRouter()
+    const { query } = useRouter()
+    const email = query.email
+    const productQuery = query.product
     const [errorMessage, setErrorMessage] = useState()
     const { inputs, handleChange, resetForm } = useForm({
-        email: '',
+        email: email || '',
         password: '',
     });
 
@@ -45,50 +51,49 @@ export default function SignInPage() {
         refetchQueries: [
             { query: CURRENT_USER_QUERY },
         ],
+        onCompleted: () => {
+            resetForm();
+            if (productQuery) {
+                router.push(`/product/${productQuery}`)
+            } else {
+                router.push("/")
+            }
+        }
     })
 
     async function handleSubmit(e: FormEvent) {
         e.preventDefault(); // stop the form from submitting
-        const res = await signin().catch(console.error);
-        if (res?.data.authenticateUserWithPassword.__typename == "UserAuthenticationWithPasswordFailure") {
-            setErrorMessage(res?.data.authenticateUserWithPassword.message)
-            return
-        }
-        resetForm();
-        router.push("/")
+        try { signin() } catch (e) { console.log(e) }
     }
-    const router = useRouter()
+    useEffect(() => {
+        console.log(data, loading, error)
+    }, [data, loading, error])
 
+    useEffect(() => {
+        if (loading) {
+            nProgress.start()
+        } else if (data || error) {
+            nProgress.done()
+        }
+    }, [error, loading, data])
 
     return <div className='mt-8 flex justify-center '>
         <MaxWidth>
             <Padding className="max-w-lg ">
                 <h1 className='font-headline text-3xl text-shadow-3d text-turquoise mb-4'>Sign In</h1>
-                {errorMessage && <div className='mb-4  p-4 border-yellow rounded-xl border-8 border-dashed'>
+                {error && <div className='mb-4  p-4 border-yellow rounded-xl border-8 border-dashed'>
                     <h2 className='font-headline text-lg text-turquoise '>Error:</h2>
-                    <p className='text-turquoise  font-body'>{errorMessage}</p>
-                </div>
-                }
-                {data?.createUser ? (
-                    <>
-                        <h2 className='font-headline text-lg text-turquoise '>Success!</h2>
-                        <p className='text-turquoise  font-body'>Signed up with {data.createUser.email}</p>
-                        <Link href={"/signin"}>
-                            <Button>Sign In</Button>
-                        </Link>
-                    </>
-                ) : <form method="POST" onSubmit={handleSubmit} >
+                    <p className='text-turquoise  font-body'>{error.message}</p>
+                </div>}
 
-
+                <form method="POST" onSubmit={handleSubmit} >
                     <fieldset className="flex flex-col gap-9" disabled={loading}>
-
                         <LabeledInput name='email' onChange={handleChange} value={inputs.email} label="Email" placeholder='Your Email' />
-
                         <LabeledInput name='password' onChange={handleChange} value={inputs.password} label="Password" type="password" />
 
-                        <Button type="submit">Sign in</Button>
+                        <Button type="submit" disabled={loading}>Sign in</Button>
                     </fieldset>
-                </form>}
+                </form>
 
             </Padding>
         </MaxWidth>

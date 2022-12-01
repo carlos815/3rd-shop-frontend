@@ -7,6 +7,9 @@ import Button from '../components/Buttons';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import Link from 'next/link';
+import nProgress from 'nprogress';
+import { useEffect } from 'react'
+import { useRouter } from 'next/router';
 
 
 const SIGNUP_MUTATION = gql`
@@ -41,6 +44,20 @@ export default function SignUpPage() {
         resetForm();
         // Send the email and password to the graphqlAPI
     }
+
+    useEffect(() => {
+        if (loading) {
+            nProgress.start()
+        } else if (data || error) {
+            nProgress.done()
+        }
+    }, [error, loading, data])
+
+    const { query } = useRouter()
+    const productQuery = query.product
+
+
+
     return <div className='mt-8 flex justify-center '>
         <MaxWidth>
             <Padding className="max-w-lg ">
@@ -54,7 +71,10 @@ export default function SignUpPage() {
                     <>
                         <h2 className='font-headline text-lg text-turquoise '>Success!</h2>
                         <p className='text-turquoise  font-body'>Signed up with {data.createUser.email}</p>
-                        <Link href={"/signin"}>
+                        <Link href={{
+                            pathname: '/signin',
+                            query: { product: productQuery, email: data.createUser.email },
+                        }}>
                             <Button>Sign In</Button>
                         </Link>
                     </>
