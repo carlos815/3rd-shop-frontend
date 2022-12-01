@@ -9,6 +9,7 @@ export type Product = {
     id: string,
     price: number,
     name: string,
+    subtitle?: string,
     description: string,
     photo: [Photo]
 }
