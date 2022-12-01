@@ -49,7 +49,6 @@ export const ALL_PRODUCTS_QUERY = gql`
 export default function AllProductsPage() {
   const { query } = useRouter();
 
-  console.log(query)
   const itemsPerPage = 4
   const page = query.p ? parseInt(query.p.toString()) : 1
   const { data, loading, error } = useQuery(ALL_PRODUCTS_QUERY, {
@@ -61,7 +60,7 @@ export default function AllProductsPage() {
 
   const totalPages = Math.ceil(data?.productsCount / itemsPerPage)
 
-  const success = !error && !loading && data
+  const success = !error && data
 
   return (
     < >
@@ -81,7 +80,7 @@ export default function AllProductsPage() {
             {page && totalPages && <div className='flex w-full justify-center items-center drop-shadow-xs gap-6 mt-12'>
               {page >= 2 ? <Link className='font-headline flex justify-center items-center text-2xl h-8 w-8 text-turquoise' href={`/all-products?p=${page - 1}`}>◄</Link> : <div className='h-8 w-8'></div>}
               <div>
-                <div className='bg-yellow rounded-full p-2 flex justify-center items-center font-body text- font-bold'>{page} of {totalPages}</div>
+                <div className='bg-yellow rounded-full p-2 flex justify-center items-center font-body text-purple-dark font-bold'>{page} of {totalPages}</div>
               </div>
               {totalPages !== page ? <Link className='font-headline flex justify-center items-center text-2xl h-8 w-8 text-turquoise' href={`/all-products?p=${page + 1}`}>►</Link> : <div className='h-8 w-8'></div>}</div>}</>}
         </Padding>

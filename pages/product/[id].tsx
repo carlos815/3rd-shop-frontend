@@ -96,7 +96,7 @@ const ProductPage: NextPage = ({ }) => {
       nProgress.start()
     }
   }, [error, loading, data])
-  
+
   return (
     <>
       <Head>
@@ -109,7 +109,7 @@ const ProductPage: NextPage = ({ }) => {
         <Padding className="w-auto py-8 min-h-[400px]">
           {error && <ErrorComponent error={error} />}
           {loading && <LoadingComponent />}
-          {success && <><div className="flex flex-col md:flex-row md:gap-16 mb-6  animate-fadein" >
+          {success && <><div className="flex flex-col md:flex-row md:gap-16 mb-6  animate-fadein md:items-start" >
             <div className="relative flex items-center justify-center overflow-hidden mb-4 w-full">
               <div className="relative flex items-center justify-center rounded-lg overflow-hidden">
                 {<ImageSwiper images={product?.photo} />}

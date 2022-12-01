@@ -10,13 +10,14 @@ const ProductCard = ({ product }: { product: Product }) => {
   const { altText, image } = product?.photo[0];
   return (
     <Link href={`/product/${id}`} className="group ">
-      <div className="w-full bg-gray-200 rounded-lg overflow-hidden drop-shadow-lg ">
+      <div className="w-full bg-gray-200 rounded-lg overflow-hidden drop-shadow-lg relative  aspect-[296/256] ">
         <Image
           src={image.publicUrlTransformed}
           alt={altText}
-          width={296}
-          height={256}
-          className="object-cover w-full relative  aspect-[296/256]  group-hover:scale-105 group-hover:rotate-3 duration-500 "
+          fill
+          sizes="(max-width: 1024px) 50vw,
+              25vw"
+          className="object-cover  group-hover:scale-105 group-hover:rotate-3 duration-500  "
         />
 
       </div>

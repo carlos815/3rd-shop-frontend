@@ -6,7 +6,13 @@ import { MinusButton, PlusButton } from "./Buttons";
 const ZoomImageContainer = ({ image, activeIndex }) => {
 
     //TODO: zoom functionality disabled for now. Buggy AF. Returning a simpler Image component
-    return <Image className=" self-center w-full  rounded-lg  aspect-[395/493]  h-auto object-cover" width={1000} height={711} key={image.image.publicUrlTransformed} src={image.image.publicUrlTransformed} alt={image.altText} ></Image >
+    return <div className=" w-full relative aspect-[395/493] ">
+
+        <Image className="   rounded-lg   object-cover " fill key={image.image.publicUrlTransformed} src={image.image.publicUrlTransformed} alt={image.altText}
+            sizes="(max-width: 1024px) 95vw,
+              40vw"
+
+        />   </div>
 
     // const [scale, setScale] = useState(1)
 
