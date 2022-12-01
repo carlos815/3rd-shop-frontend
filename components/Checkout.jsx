@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import formatMoney from '../lib/formatMoney';
 import { USER_ORDERS_QUERY } from '../pages/orders';
+import ErrorComponent from './ErrorComponent';
 
 const stripeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 
@@ -48,44 +49,50 @@ const CheckoutForm = ({ totalPrice }) => {
         }
 
         setLoading(true)
+        setError()
         NProgress.start();
 
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: "card",
-            card: elements.getElement(CardElement)
-        })
+        try {
+            const { error, paymentMethod } = await stripe.createPaymentMethod({
+                type: "card",
+                card: elements.getElement(CardElement)
+            })
 
-        console.log(paymentMethod.id)
-        if (error) {
-            setError(error);
-            NProgress.done();
-            return; // stops the checkout from happening
-        }
-        setLoading(false)
-
-        const order = await checkout({
-            variables: {
-                token: paymentMethod.id,
-            },
-        });
-
-        NProgress.done();
-        router.push({
-
-            pathname: "/orders",
-            query: {
-                id: order.id
+            if (error) {
+                throw error
             }
-        })
-        e.target.parentElement.parentElement.close()
+
+
+            const order = await checkout({
+                variables: {
+                    token: paymentMethod.id,
+                },
+            });
+
+            setLoading(false)
+            NProgress.done();
+            router.push({
+                pathname: "/orders",
+                query: {
+                    id: order.id
+                }
+            })
+            e.target.parentElement.parentElement.close()
+        } catch (e) {
+            setError(e);
+            console.log(e)
+            NProgress.done();
+            setLoading(false)
+        }
     }
     return <form onSubmit={handleSubmit} disabled={loading} method="dialog"
         className="stripe-form  flex flex-col gap-3 " >
         <p>This checkout is handled by <Link className='underline' href="https://stripe.com/">Stripe
         </Link>, so it&apos;s safe AF</p>
 
+        {error && <p className='font-body animate-fadein text-pink -mb-3'>{error.message}</p>}
         <CardElement className=' bg-yellow font-body p-4 rounded-lg font-bold   drop-shadow-lg' />
-        <Button type='submit'>Pay ({formatMoney(totalPrice)})</Button>
+        <Button type='submit' disabled={loading}>Pay ({formatMoney(totalPrice)})</Button>
     </form>
 }
 
