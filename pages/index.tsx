@@ -8,6 +8,8 @@ import MaxWidth from '../components/layout/MaxWidth';
 import Padding from '../components/layout/Padding';
 import Banner from '../components/Banner';
 import ProductsGrid from '../components/ProductsGrid';
+import ErrorComponent from '../components/ErrorComponent';
+import LoadingComponent from '../components/LoadingComponent';
 
 
 // products(first: $first, skip: $skip, where: { id_not: $id_not }) {
@@ -43,6 +45,9 @@ export const ALL_PRODUCTS_QUERY = gql`
 // ]
 export default function Home() {
   const { data, loading, error } = useQuery(ALL_PRODUCTS_QUERY, { variables: { take: 4, orderBy: "asc" } })
+
+  const success = !error && !loading && data
+
   return (
     < >
       <Head>
@@ -54,10 +59,13 @@ export default function Home() {
       <MaxWidth>
         <Image src="/hero.png" height={4610} width={11520} alt="Hero Image" className=" min-h-[364px] object-cover w-screen " ></Image>
         <Padding className="my-8">
-          {/* {loading && <p>Loading...</p>} */}
-          <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Explore Products</h1>
-          {data?.products && <ProductsGrid products={data?.products}></ProductsGrid>
-          }
+          {error && <ErrorComponent error={error} />}
+          {loading && <LoadingComponent />}
+
+          {success && <>
+            <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Explore Products</h1>
+            {data?.products && <ProductsGrid products={data?.products}></ProductsGrid>
+            }</>}
         </Padding>
       </MaxWidth>
       <Banner />

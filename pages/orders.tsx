@@ -59,6 +59,7 @@ export const USER_ORDERS_QUERY = gql`
 
 export default function OrdersPage() {
   const { data, loading, error } = useQuery(USER_ORDERS_QUERY)
+
   return (
     < >
       <Head>
@@ -73,6 +74,7 @@ export default function OrdersPage() {
           {/* {loading && <p>Loading...</p>} */}
           <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Orders</h1>
           <div className='flex flex-col gap-8 my-4'>
+            {data?.orders.length == 0 && <p className='text-turquoise font-body'>There are no orders </p>}
             {data?.orders.map((order: Order, index: number) => <div key={order.id} className={"flex flex-col  rounded-lg overflow-hidden"}>
               {/* //Header */}
               <div className='flex gap-7 text-sm text-yellow font-body bg-purple-dark py-2 px-4 '>

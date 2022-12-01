@@ -69,16 +69,13 @@ export default function CartPage() {
 
 
         <Padding className="py-8 ">
+          
 
-          {/* {loading && <p>Loading...</p>} */}
-          <h1 className='font-headline lg:text-6xl text-2xl  text-turquoise text-shadow-3d mb-4'>Cart</h1>
-
-          {user?.cart.length == 0 ? <EmptyCart /> : <FilledCart />}
-
-
-
+          {!user && <p className='text-turquoise font-body'><Link href="/signin" className='underline'>Log in</Link> or <Link href="/signup" className='underline'>Sign up</Link> to buy
+          </p>}
+          {user && <><h1 className='font-headline lg:text-6xl text-2xl  text-turquoise text-shadow-3d mb-4'>Cart</h1>
+            {user?.cart.length == 0 ? <EmptyCart /> : <FilledCart />}</>}
         </Padding>
-
       </MaxWidth>
     </>
   )

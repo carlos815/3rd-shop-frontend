@@ -19,12 +19,15 @@ import formatMoney from '../../lib/formatMoney';
 import Padding from '../../components/layout/Padding';
 import ProductsGrid from '../../components/ProductsGrid';
 import Button from '../../components/Buttons';
+import ErrorComponent from '../../components/ErrorComponent';
+import LoadingComponent from '../../components/LoadingComponent';
 
 import ImageSwiper from "../../components/ImageSwiper"
 import { CURRENT_USER_QUERY, useUser } from '../../components/User';
 import { userAgent } from 'next/server';
 import Link from 'next/link';
-import { CartItem } from '../../types';
+import { CartItem, Product } from '../../types';
+import nProgress from 'nprogress';
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -62,7 +65,7 @@ const ProductPage: NextPage = ({ }) => {
 
   const { data: otherProductsData, error: otherProductsError, loading: otherProductsLoading } = useQuery(ALL_PRODUCTS_QUERY, { variables: { take: 4, id_not: query.id } })
 
-  const product = data?.product
+  const product: Product = data?.product
   const [addToCart, { data: addToCartData, error: addToCartError, loading: addToCartLoading }] = useMutation(ADD_TO_CART_MUTATION, {
     variables: { id: query.id },
     refetchQueries: [
@@ -73,12 +76,27 @@ const ProductPage: NextPage = ({ }) => {
       console.log("item added to cart")
     }
   },
-
   )
   const user = useUser();
 
   const match = user?.cart.find((item: CartItem) => item.product.id == query.id)
+  const success = !error && !loading
 
+  const buyItem = () => {
+    if (!user) { console.log("user not logged in"); return };
+    addToCart()
+  }
+  useEffect(() => {
+    if (loading) {
+      nProgress.start()
+    }
+    if (data || error) {
+      nProgress.done()
+    } else {
+      nProgress.start()
+    }
+  }, [error, loading, data])
+  
   return (
     <>
       <Head>
@@ -87,41 +105,51 @@ const ProductPage: NextPage = ({ }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {loading ? <h1>Loading...</h1> :
-        <MaxWidth>
-          <Padding className="w-auto py-8 ">
-            <div className="flex flex-col md:flex-row md:gap-16 mb-6 " >
-              <div className="relative flex items-center justify-center overflow-hidden mb-4 w-full">
-                <div className="relative flex items-center justify-center rounded-lg overflow-hidden">
-                  {<ImageSwiper images={product?.photo} />}
-                </div >
-
-                {/* <Image className='aspect-[395/493] object-cover rounded-2xl ' src={product?.photo[0].image.publicUrlTransformed} width={571} height={711} alt={product?.name} /> */}
+      <MaxWidth>
+        <Padding className="w-auto py-8 min-h-[400px]">
+          {error && <ErrorComponent error={error} />}
+          {loading && <LoadingComponent />}
+          {success && <><div className="flex flex-col md:flex-row md:gap-16 mb-6  animate-fadein" >
+            <div className="relative flex items-center justify-center overflow-hidden mb-4 w-full">
+              <div className="relative flex items-center justify-center rounded-lg overflow-hidden">
+                {<ImageSwiper images={product?.photo} />}
               </div >
-              <div className='w-full'>
-                <h1 className="text-3xl text-turquoise font-headline text-shadow-3d ">{product?.name}</h1>
-                <h2 className="text-lg text-pink font-headline mb-4 ">
-                  {product?.subtitle}
-                </h2>
+            </div >
+            <div className='w-full'>
+              <h1 className="text-3xl text-turquoise font-headline text-shadow-3d ">{product?.name}</h1>
+              <h2 className="text-lg text-pink font-headline mb-4 ">
+                {product?.subtitle}
+              </h2>
 
-                <div className="flex flex-col gap-y-4  text-yellow font-body mb-4" >{product?.description}</div>
+              <div className="flex flex-col gap-y-4  text-yellow font-body mb-4" >{product?.description}</div>
 
-                <h2 className="text-2xl  text-turquoise mb-4 font-headline">{formatMoney(product?.price)}</h2>
-                {match && <p className='text-turquoise font-body'>                Item added to <Link href="/cart" className='underline'>cart!</Link>
-                </p>}
-                {!match && <Button onClick={addToCart} disabled={addToCartLoading}>Buy</Button>}</div>
+              <h2 className="text-2xl  text-turquoise mb-4 font-headline">{formatMoney(product?.price)}</h2>
+              {!user && <p className='text-turquoise font-body'><Link href={
+                {
+                  pathname: '/signin',
+                  query: { product: product.id },
+                }
+              } className='underline'>Log in</Link> or <Link href={{
+                pathname: '/signup',
+                query: { product: product.id },
+              }} className='underline'>Sign up</Link> to buy
+              </p>}
+              {match && <p className='text-turquoise font-body'>                Item added to <Link href="/cart" className='underline'>cart!</Link>
+              </p>}
+              {!match && user && <Button onClick={buyItem} disabled={addToCartLoading}>Buy</Button>}</div>
 
 
-            </div>
+          </div>
 
             <h1 className='font-headline lg:text-3xl text-2xl  text-turquoise text-shadow-3d'>Moar Products</h1>
             {otherProductsData?.products && <ProductsGrid products={otherProductsData?.products}></ProductsGrid>
-            }
+            }</>}
 
-          </Padding>
-        </MaxWidth>}
+        </Padding>
+      </MaxWidth>
 
-      <Banner />
+      {success && <Banner />}
+
     </ >
   )
 }

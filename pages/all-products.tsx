@@ -10,6 +10,8 @@ import Banner from '../components/Banner';
 import ProductsGrid from '../components/ProductsGrid';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import ErrorComponent from '../components/ErrorComponent';
+import LoadingComponent from '../components/LoadingComponent';
 
 
 // products(first: $first, skip: $skip, where: { id_not: $id_not }) {
@@ -58,8 +60,9 @@ export default function AllProductsPage() {
   })
 
   const totalPages = Math.ceil(data?.productsCount / itemsPerPage)
-  console.log(totalPages)
-  console.log(page >= 2)
+
+  const success = !error && !loading && data
+
   return (
     < >
       <Head>
@@ -70,17 +73,17 @@ export default function AllProductsPage() {
 
       <MaxWidth>
         <Padding className="py-8 ">
-          {/* {loading && <p>Loading...</p>} */}
-          <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Explore Products</h1>
-          {data?.products && <ProductsGrid products={data?.products}></ProductsGrid>
-          }
-
-          {page && totalPages && <div className='flex w-full justify-center items-center drop-shadow-xs gap-6 mt-12'>
-            {page >= 2 ? <Link className='font-headline flex justify-center items-center text-2xl h-8 w-8 text-turquoise' href={`/all-products?p=${page - 1}`}>◄</Link> : <div className='h-8 w-8'></div>}
-            <div>
-              <div className='bg-yellow rounded-full p-2 flex justify-center items-center font-body text- font-bold'>{page} of {totalPages}</div>
-            </div>
-            {totalPages !== page ? <Link className='font-headline flex justify-center items-center text-2xl h-8 w-8 text-turquoise' href={`/all-products?p=${page + 1}`}>►</Link> : <div className='h-8 w-8'></div>}</div>}
+          {error && <ErrorComponent error={error} />}
+          {loading && <LoadingComponent />}
+          {success && <>    <h1 className='font-headline lg:text-4xl text-2xl  text-turquoise text-shadow-3d'>Explore Products</h1>
+            {data?.products && <ProductsGrid products={data?.products}></ProductsGrid>
+            }
+            {page && totalPages && <div className='flex w-full justify-center items-center drop-shadow-xs gap-6 mt-12'>
+              {page >= 2 ? <Link className='font-headline flex justify-center items-center text-2xl h-8 w-8 text-turquoise' href={`/all-products?p=${page - 1}`}>◄</Link> : <div className='h-8 w-8'></div>}
+              <div>
+                <div className='bg-yellow rounded-full p-2 flex justify-center items-center font-body text- font-bold'>{page} of {totalPages}</div>
+              </div>
+              {totalPages !== page ? <Link className='font-headline flex justify-center items-center text-2xl h-8 w-8 text-turquoise' href={`/all-products?p=${page + 1}`}>►</Link> : <div className='h-8 w-8'></div>}</div>}</>}
         </Padding>
       </MaxWidth>
     </>
