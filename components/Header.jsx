@@ -38,8 +38,8 @@ export default function Header() {
         <NavUrl href="/all-products" onClick={closeSideMenu}>All Products</NavUrl>
         {user && <>
             <NavUrl href="/orders" onClick={closeSideMenu}>Orders</NavUrl>
-            <NavUrl href="/sell" onClick={closeSideMenu}>Sell</NavUrl>
-            <NavUrl href="/profile" onClick={closeSideMenu}>Profile</NavUrl>
+            {/* <NavUrl href="/sell" onClick={closeSideMenu}>Sell</NavUrl>
+            <NavUrl href="/profile" onClick={closeSideMenu}>Profile</NavUrl> */}
         </>}
         {!user ? <>
             <NavUrl href="/signin" onClick={closeSideMenu}>Sign In</NavUrl>
@@ -82,7 +82,7 @@ export default function Header() {
         </header>
         {/* Mobile Nav Drawer */}
         {sideMenu && <ClickAwayListener onClickAway={closeSideMenu}>
-            <ul hidden={!sideMenu} className="lg:hidden absolute z-10  w-4/5 h-full bg-yellow p-4 py-8 text-h6 font-headline text-center text-purple decoration-purple underline flex flex-col gap-4" >
+            <ul hidden={!sideMenu} className="lg:hidden absolute z-10  w-4/5 h-full bg-yellow p-4 py-8 text-h6 font-headline text-center text-purple decoration-purple underline flex flex-col gap-4 animate-fadein" >
                 <NavUrls />
             </ul>
         </ClickAwayListener>}
