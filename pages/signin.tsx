@@ -33,8 +33,6 @@ const SIGNIN_MUTATION = gql`
 `;
 
 export default function SignInPage() {
-
-
     const router = useRouter()
     const { query } = useRouter()
     const email = query.email
@@ -51,23 +49,24 @@ export default function SignInPage() {
         refetchQueries: [
             { query: CURRENT_USER_QUERY },
         ],
-        onCompleted: () => {
-            resetForm();
-            if (productQuery) {
-                router.push(`/product/${productQuery}`)
-            } else {
-                router.push("/")
+        onCompleted: (response) => {
+            if (response?.authenticateUserWithPassword.__typename == "UserAuthenticationWithPasswordSuccess") {
+                resetForm();
+                if (productQuery) {
+                    router.push(`/product/${productQuery}`)
+                } else {
+                    router.push("/")
+                }
+            } else if (response?.authenticateUserWithPassword.__typename == "UserAuthenticationWithPasswordFailure") {
+                setErrorMessage(response.authenticateUserWithPassword.message)
             }
         }
     })
 
     async function handleSubmit(e: FormEvent) {
-        e.preventDefault(); // stop the form from submitting
+        e.preventDefault();
         try { signin() } catch (e) { console.log(e) }
     }
-    useEffect(() => {
-        console.log(data, loading, error)
-    }, [data, loading, error])
 
     useEffect(() => {
         if (loading) {
@@ -85,6 +84,13 @@ export default function SignInPage() {
                     <h2 className='font-headline text-lg text-turquoise '>Error:</h2>
                     <p className='text-turquoise  font-body'>{error.message}</p>
                 </div>}
+
+                {errorMessage && <div className='mb-4  p-4 border-yellow rounded-xl border-8 border-dashed'>
+                    <h2 className='font-headline text-lg text-turquoise '>Error:</h2>
+                    <p className='text-turquoise  font-body'>{errorMessage}</p>
+                </div>}
+
+
 
                 <form method="POST" onSubmit={handleSubmit} >
                     <fieldset className="flex flex-col gap-9" disabled={loading}>
