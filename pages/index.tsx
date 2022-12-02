@@ -57,7 +57,7 @@ export default function Home() {
       </Head>
 
       <MaxWidth>
-        <Image src="/hero.png" height={4610} width={11520} alt="Hero Image" className=" min-h-[364px] object-cover w-screen " ></Image>
+        <div className='aspect-[1280/512] relative min-h-[364px] '>  <Image src="/hero.png" fill alt="Hero Image" className=" object-cover w-screen " ></Image></div>
         <Padding className="my-8">
           {error && <ErrorComponent error={error} />}
           {loading && <LoadingComponent />}
