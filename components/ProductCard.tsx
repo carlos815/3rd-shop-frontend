@@ -18,6 +18,8 @@ const ProductCard = ({ product }: { product: Product }) => {
           sizes="(max-width: 1024px) 50vw,
               25vw"
           className="object-cover  group-hover:scale-105 group-hover:rotate-3 duration-500  "
+          placeholder="blur"
+          blurDataURL={image.publicUrlTransformed + "&w=10&q=10"}
         />
 
       </div>

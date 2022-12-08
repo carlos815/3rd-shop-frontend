@@ -76,34 +76,42 @@ export default function SignInPage() {
         }
     }, [error, loading, data])
 
-    return <div className='mt-8 flex justify-center '>
-        <MaxWidth>
-            <Padding className="max-w-lg ">
-                <h1 className='font-headline text-3xl text-shadow-3d text-turquoise mb-4'>Sign In</h1>
-                {error && <div className='mb-4  p-4 border-yellow rounded-xl border-8 border-dashed'>
-                    <h2 className='font-headline text-lg text-turquoise '>Error:</h2>
-                    <p className='text-turquoise  font-body'>{error.message}</p>
-                </div>}
+    return <>
+        <Head>
+            <title>3rd Shop - Sign In</title>
+            <meta name="description" content="Vintage eshop page built with Keystone and Next Js by Carlos Hernández" />
+            <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <div className='mt-8 flex justify-center '>
 
-                {errorMessage && <div className='mb-4  p-4 border-yellow rounded-xl border-8 border-dashed'>
-                    <h2 className='font-headline text-lg text-turquoise '>Error:</h2>
-                    <p className='text-turquoise  font-body'>{errorMessage}</p>
-                </div>}
+            <MaxWidth>
+                <Padding className="max-w-lg ">
+                    <h1 className='font-headline text-3xl text-shadow-3d text-turquoise mb-4'>Sign In</h1>
+                    {error && <div className='mb-4  p-4 border-yellow rounded-xl border-8 border-dashed'>
+                        <h2 className='font-headline text-lg text-turquoise '>Error:</h2>
+                        <p className='text-turquoise  font-body'>{error.message}</p>
+                    </div>}
 
-
-
-                <form method="POST" onSubmit={handleSubmit} >
-                    <fieldset className="flex flex-col gap-9" disabled={loading}>
-                        <LabeledInput name='email' onChange={handleChange} value={inputs.email} label="Email" placeholder='Your Email' />
-                        <LabeledInput name='password' onChange={handleChange} value={inputs.password} label="Password" type="password" />
-
-                        <Button type="submit" disabled={loading}>Sign in</Button>
-                    </fieldset>
-                </form>
-
-            </Padding>
-        </MaxWidth>
+                    {errorMessage && <div className='mb-4  p-4 border-yellow rounded-xl border-8 border-dashed'>
+                        <h2 className='font-headline text-lg text-turquoise '>Error:</h2>
+                        <p className='text-turquoise  font-body'>{errorMessage}</p>
+                    </div>}
 
 
-    </div>
+
+                    <form method="POST" onSubmit={handleSubmit} >
+                        <fieldset className="flex flex-col gap-9" disabled={loading}>
+                            <LabeledInput name='email' onChange={handleChange} value={inputs.email} label="Email" placeholder='Your Email' />
+                            <LabeledInput name='password' onChange={handleChange} value={inputs.password} label="Password" type="password" />
+
+                            <Button type="submit" disabled={loading}>Sign in</Button>
+                        </fieldset>
+                    </form>
+
+                </Padding>
+            </MaxWidth>
+
+
+        </div>
+    </>
 }
