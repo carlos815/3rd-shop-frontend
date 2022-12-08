@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { CURRENT_USER_QUERY, useUser } from '../components/User';
 import { useState, FormEvent } from 'react'
 import nProgress from 'nprogress';
+import Head from 'next/head';
 
 
 
