@@ -96,7 +96,6 @@ const ProductPage: NextPage = ({ }) => {
       nProgress.start()
     }
   }, [error, loading, data])
-  console.log(data)
   return (
     <>
       <Head>
